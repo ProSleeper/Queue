@@ -8,6 +8,7 @@ public class SpawnManager : MonoBehaviour
 	public GameObject cube;
     public GameObject startCube;
     public GameObject mainCamera;
+    
 
     List<GameObject> cubeList = new List<GameObject>();
     float Xvalue, Yvalue;
@@ -15,13 +16,15 @@ public class SpawnManager : MonoBehaviour
     float cameraYvalue;
     Quaternion rotation;
 
+    static int idx = 1;
+
     // Use this for initialization
     void Start()
     {
         //StartCoroutine(CubeSpawn());
         InitCube();
 		cubeList.Add(startCube);
-		Debug.Log(cubeList[0].transform.position);
+		//Debug.Log(cubeList[0].transform.position);
 		CubeSpawn();
 		
     }
@@ -49,9 +52,10 @@ public class SpawnManager : MonoBehaviour
 	void CubeSpawn()
 	{
 		cubeList.Add(Instantiate(cube, new Vector3(Xvalue, Yvalue, 3.0f), rotation) as GameObject);
-		Debug.Log(cubeList[0].transform.position.y);
+		Debug.Log(cubeList.Count);
+        Debug.Log("idx: " + idx);
 		//겹치는지 확인 코드
-
+        
 		///////////////////
 
 
@@ -63,4 +67,9 @@ public class SpawnManager : MonoBehaviour
 		//cameraYvalue = mainCamera.transform.position.y + 0.5f;
 		//Debug.Log(cubeList.Count);
 	}
+
+    public void CubeCut()
+    {
+        cubeList[idx++].transform.position = new Vector3(cubeList[0].transform.position.x,cubeList[idx].transform.position.y - 0.5f, cubeList[0].transform.position.z);
+    }
 }

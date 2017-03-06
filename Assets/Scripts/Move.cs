@@ -6,19 +6,21 @@ public class Move : MonoBehaviour {
 
 	bool isMove;
 	public float speed;
+	public GameObject SManager;
 
 	// Use this for initialization
 	void Start () {
 		isMove = true;
-		
+		SManager = GameObject.Find("GameManager");
 	}
 	
 	// Update is called once per frame
 	void Update () {
 
-		if (Input.GetMouseButtonDown(0))
+		if (Input.GetMouseButtonDown(0) && isMove)
 		{
 			isMove = false;
+			SManager.GetComponent<SpawnManager>().CubeCut();
 		}
 		
 		if (this.transform.position.z <= -3.5f || this.transform.position.z >= 3.5f)
