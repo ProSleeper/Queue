@@ -5,10 +5,12 @@ using UnityEngine;
 public class Move : MonoBehaviour {
 
 	bool isMove;
+	public float speed;
 
 	// Use this for initialization
 	void Start () {
 		isMove = true;
+		
 	}
 	
 	// Update is called once per frame
@@ -19,9 +21,14 @@ public class Move : MonoBehaviour {
 			isMove = false;
 		}
 		
+		if (this.transform.position.z <= -3.5f || this.transform.position.z >= 3.5f)
+		{
+			speed *= -1;
+		}
+
 		if (isMove)
 		{
-			this.transform.Translate(new Vector3(0.0f, 0.0f, -3.0f * Time.deltaTime));
+			this.transform.Translate(new Vector3(0.0f, 0.0f, speed * Time.deltaTime));
 		}
 		
 	}
