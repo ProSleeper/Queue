@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/_Scene/InGame.unity
+- path: Assets/_Scene/CameraMoveInGame.unity
   isLoaded: 1
   isActive: 1

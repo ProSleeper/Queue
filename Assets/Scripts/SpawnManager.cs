@@ -52,13 +52,12 @@ public class SpawnManager : MonoBehaviour
 	void CubeSpawn()
 	{
 		cubeList.Add(Instantiate(cube, new Vector3(Xvalue, Yvalue, 3.0f), rotation) as GameObject);
-		Debug.Log(cubeList.Count);
-        Debug.Log("idx: " + idx);
+		
 		//겹치는지 확인 코드
         
 		///////////////////
 
-
+        
 
 		Xvalue *= -1;
 		Yvalue += 0.5f;
@@ -70,6 +69,9 @@ public class SpawnManager : MonoBehaviour
 
     public void CubeCut()
     {
-        cubeList[idx++].transform.position = new Vector3(cubeList[0].transform.position.x,cubeList[idx].transform.position.y - 0.5f, cubeList[0].transform.position.z);
+        Debug.Log(cubeList.Count);
+        Debug.Log("idx: " + idx);
+        cubeList[idx].transform.position = new Vector3(cubeList[idx - 1].transform.position.x,cubeList[idx].transform.position.y, cubeList[idx - 1].transform.position.z);
+        idx++;
     }
 }

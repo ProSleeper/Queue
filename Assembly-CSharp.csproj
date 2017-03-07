@@ -46,6 +46,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\CameraScripts\SpawnManager1.cs" />
+     <Compile Include="Assets\CameraScripts\XMove.cs" />
      <Compile Include="Assets\Scripts\Move.cs" />
      <Compile Include="Assets\Scripts\SpawnManager.cs" />
      <Compile Include="Assets\Scripts\iTween.cs" />
@@ -68,7 +70,7 @@
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/UnityVR/RuntimeEditor/UnityEngine.VR.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.Advertisements.Editor">
- <HintPath>C:/Users/wyk/Documents/GitHub/Queue/Queue/Assets/UnityAds/UnityEngine.Advertisements.Editor.dll</HintPath>
+ <HintPath>C:/Users/KITRIGAME/Documents/GitHub/MyHub/Queue/Assets/UnityAds/UnityEngine.Advertisements.Editor.dll</HintPath>
  </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
