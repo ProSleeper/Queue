@@ -41,17 +41,14 @@ public class SpawnManager1 : MonoBehaviour
         }
     }
 
-	void CubeSpawn()
-	{
+    void CubeSpawn()
+    {
         tempGameObject = Instantiate(cube, new Vector3(Xvalue, Yvalue, Zvalue), Quaternion.identity) as GameObject;
         //Debug.Log(cubeList.Count);
 
-        Debug.Log(cubeList[cubeList.Count - 1].transform.localScale.x);
-        Debug.Log(tempGameObject.transform.localScale.y);
-        Debug.Log(cubeList[cubeList.Count - 1].transform.localScale.z);
-
         cubeList.Add(tempGameObject);
-        
+
+         //블럭 생성 후 어느 방향으로 움직일지 결정
         if (checkXY)
         {
             tempGameObject.GetComponent<XMove>().isLR = true;
@@ -63,57 +60,74 @@ public class SpawnManager1 : MonoBehaviour
             checkXY = true;
         }
 
-        if (cubeList.Count > 2)
-        {
-            cubeList[cubeList.Count - 2].GetComponent<XMove>().isMove = false;
+        //크기를 계산하기 위해서 있는 변수 xx,zz
+       
 
-            float xx = cubeList[cubeList.Count - 3].transform.position.x + cubeList[cubeList.Count - 2].transform.position.x;
-            float zz = cubeList[cubeList.Count - 3].transform.position.z + cubeList[cubeList.Count - 2].transform.position.z;
-
-            if (cubeList[cubeList.Count - 2].GetComponent<XMove>().isLR)
-            {
-                if (xx > 0.0f)
-                {
-                    xx *= -1.0f;
-                }
-                cubeList[cubeList.Count - 2].transform.position = new Vector3(cubeList[cubeList.Count - 2].transform.position.x / 2, cubeList[cubeList.Count - 2].transform.position.y, cubeList[cubeList.Count - 2].transform.position.z);
-                cubeList[cubeList.Count - 2].transform.localScale = new Vector3(cubeList[cubeList.Count - 2].transform.localScale.x + xx, cubeList[cubeList.Count - 2].transform.localScale.y, cubeList[cubeList.Count - 2].transform.localScale.z);
-                
-                
-                tempGameObject.transform.localScale = new Vector3(cubeList[cubeList.Count - 2].transform.localScale.x, tempGameObject.transform.localScale.y, cubeList[cubeList.Count - 2].transform.localScale.z);
-               
-               
-                tempGameObject.transform.position = new Vector3(cubeList[cubeList.Count - 2].transform.position.x, tempGameObject.transform.position.y, tempGameObject.transform.position.z);
-            
-            }
-            else
-            {
-                if (zz > 0.0f)
-                {
-                    zz *= -1.0f;
-                }
-                cubeList[cubeList.Count - 2].transform.position = new Vector3(cubeList[cubeList.Count - 2].transform.position.x, cubeList[cubeList.Count - 2].transform.position.y, cubeList[cubeList.Count - 2].transform.position.z/2);
-                cubeList[cubeList.Count - 2].transform.localScale = new Vector3(cubeList[cubeList.Count - 2].transform.localScale.x, cubeList[cubeList.Count - 2].transform.localScale.y, cubeList[cubeList.Count - 2].transform.localScale.z + zz);
-                
-                
-                tempGameObject.transform.localScale = new Vector3(cubeList[cubeList.Count - 2].transform.localScale.x, tempGameObject.transform.localScale.y, cubeList[cubeList.Count - 2].transform.localScale.z);
-                
-                
-                tempGameObject.transform.position = new Vector3(tempGameObject.transform.position.x, tempGameObject.transform.position.y, cubeList[cubeList.Count - 2].transform.position.z);
-            }
-
-            // Debug.Log("xx: " + xx);
-            // Debug.Log("zz: " + zz);
-            
-        
-
-        }
-
+        //x값과 z값을 계속 바꿔서 젠 위치를 바꿔줌
         float temp = Xvalue;
         Xvalue = Zvalue;
         Zvalue = temp;
 
-		Yvalue += 0.5f;
-        
-	}
+        Yvalue += 0.5f;        //높이는 항상 일정하게 증가함
+
+
+
+
+        if (cubeList.Count > 2)
+        {
+            Transform backThree = cubeList[cubeList.Count - 3].transform;       //현재 움직이는 블럭 아래 블럭
+            Transform backTwo = cubeList[cubeList.Count - 2].transform;         //현재 움직이는 블럭
+            Transform tempObj = tempGameObject.transform;                       //새로 만들어진 블럭
+            cubeList[cubeList.Count - 2].GetComponent<XMove>().isMove = false;
+            float xx;
+            float zz;
+
+            if (backTwo.transform.position.x > backThree.position.x )      //큰값에서 작은 값을 빼주기 위해서 필요한 조건
+            {
+                xx = backThree.position.x - backTwo.transform.position.x;
+            }
+            else
+            {
+                xx = backTwo.transform.position.x - backThree.position.x;
+            }
+
+
+            if (backTwo.transform.position.z > backThree.position.z)      //큰값에서 작은 값을 빼주기 위해서 필요한 조건
+            {
+                zz  = backThree.position.z - backTwo.transform.position.z;
+            }
+            else
+            {
+                zz = backTwo.transform.position.z - backThree.position.z;
+            }
+
+            Debug.Log("xx: " + xx);
+            Debug.Log("zz: " + zz);
+            //클릭시 블럭의 움직임을 멈추게 할 코드
+            if (backTwo.GetComponent<XMove>().isLR)     //x축으로 움직이는경우
+            {
+                //Debug.Log("xx: " + xx);
+
+                backTwo.localScale = new Vector3(backTwo.transform.localScale.x + xx, backTwo.transform.localScale.y, backTwo.transform.localScale.z);
+                
+                //backTwo.position = new Vector3(backTwo.transform.position.x - (xx / 2), backTwo.transform.position.y, backTwo.transform.position.z);
+                
+                //Debug.Log("멈춤 블럭의 x: " + backTwo.transform.position.x);
+                tempObj.position = new Vector3(backTwo.transform.position.x, tempObj.position.y, tempObj.position.z);
+                tempObj.localScale = new Vector3(backTwo.transform.localScale.x, tempObj.localScale.y, backTwo.transform.localScale.z);
+
+            }
+            else    //z축으로 움직이는 경우
+            {
+                //Debug.Log("zz: " + zz);
+                backTwo.localScale = new Vector3(backTwo.localScale.x, backTwo.localScale.y, backTwo.localScale.z + zz);
+                
+               //backTwo.position = new Vector3(backTwo.position.x, backTwo.position.y, backTwo.position.z - (zz / 2));
+                
+                //Debug.Log("멈춤 블럭의 z: " + backTwo.transform.position.z);
+                tempObj.position = new Vector3(tempObj.position.x, tempObj.position.y, backTwo.position.z);
+                tempObj.localScale = new Vector3(backTwo.localScale.x, tempObj.localScale.y, backTwo.localScale.z);
+            }
+        }
+    }
 }
