@@ -18,7 +18,7 @@ public class XMove : MonoBehaviour {
 
 		if (isLR)
 		{
-            if (this.transform.position.x <= -3.5f || this.transform.position.x >= 3.5f)
+            if (this.transform.position.x <= -4.0f || this.transform.position.x >= 4.0f)
             {
                 speed *= -1;
             }
@@ -30,7 +30,7 @@ public class XMove : MonoBehaviour {
         }
         else
         {
-            if (this.transform.position.z <= -3.5f || this.transform.position.z >= 3.5f)
+            if (this.transform.position.z <= -4.0f || this.transform.position.z >= 4.0f)
             {
                 speed *= -1;
             }
@@ -40,10 +40,5 @@ public class XMove : MonoBehaviour {
                 this.transform.Translate(new Vector3(0.0f, 0.0f, speed * Time.deltaTime));
             }
         }
-
-		
-
-
-		
 	}
 }
